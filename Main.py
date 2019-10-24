@@ -11,6 +11,12 @@ def show_webcam(mirror=False):
 
         cv2.rectangle(img, (50, 50), (1230, 670), (0, 0, 255), 5)
 
+        rows = len(img)
+        cols = len(img[0])
+
+        for r in range(rows):
+            for c in range(cols):
+                if(img[r][c])
 
         cv2.imshow('my webcam', img)
         if cv2.waitKey(1) == 27:
