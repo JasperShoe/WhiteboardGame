@@ -12,14 +12,15 @@ def show_webcam(mirror=False):
         output = img.copy()
 
         img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-        img = cv.medianBlur(img, 5)
-        img = cv.Canny(img, 75, 150)
+        img = cv.medianBlur(img, 3)
+        img = cv.Canny(img, 100, 150)
 
-        circles = cv.HoughCircles(img, cv.HOUGH_GRADIENT, 1, 200, param1=100, param2=20, minRadius=1, maxRadius=100)
-        circles = np.uint16(np.around(circles))
-        for(x, y, r) in circles[0, :]:
-            cv.circle(output, (x, y), r, (0, 255, 0), 3)
-            cv.circle(output, (x, y), 2, (0, 255, 0), 3)
+        circles = cv.HoughCircles(img, cv.HOUGH_GRADIENT, 1, 100, param1=120, param2=27, minRadius=1, maxRadius=50)
+        if circles is not None:
+            circles = np.uint16(np.around(circles))
+            for(x, y, r) in circles[0, :]:
+                cv.circle(output, (x, y), r, (0, 255, 0), 3)
+                cv.circle(output, (x, y), 2, (0, 255, 0), 3)
 
         cv.rectangle(output, (100, 100), (1180, 620), (0,0,255), 2)
 
