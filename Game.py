@@ -1,7 +1,7 @@
 import pygame
 import random
 import math
-
+#
 background_colour = (255, 255, 255)
 (width, height) = (400, 400)
 drag = 0.999
