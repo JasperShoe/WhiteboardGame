@@ -12,13 +12,13 @@ gravity = (math.pi, 0.002)
 def addVectors(angle1, length1, angle2, length2):
     x = math.sin(angle1) * length1 + math.sin(angle2) * length2
     y = math.cos(angle1) * length1 + math.cos(angle2) * length2
-
+    Game.py: 14
     angle = 0.5 * math.pi - math.atan2(y, x)
     length = math.hypot(x, y)
 
     return (angle, length)
 
-#new comment
+#new comment yeet
 
 
 def findParticle(particles, x, y):
