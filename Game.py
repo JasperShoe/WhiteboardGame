@@ -1,24 +1,23 @@
 import pygame
 import random
 import math
+import Game
 
 background_colour = (255, 255, 255)
 (width, height) = (400, 400)
 drag = 0.999
 elasticity = 0.75
 gravity = (math.pi, 0.002)
-
+Game = None
 
 def addVectors(angle1, length1, angle2, length2):
     x = math.sin(angle1) * length1 + math.sin(angle2) * length2
     y = math.cos(angle1) * length1 + math.cos(angle2) * length2
-
+    Game.py: 14
     angle = 0.5 * math.pi - math.atan2(y, x)
     length = math.hypot(x, y)
 
     return (angle, length)
-
-#new comment
 
 
 def findParticle(particles, x, y):
@@ -91,6 +90,29 @@ class Particle():
             self.angle = math.pi - self.angle
             self.speed *= elasticity
 
+class Line():
+    def __init__(self, xstart, ystart, xend, yend):
+        self.xstart = xstart
+        self.ystart = ystart
+        self.xend = xend
+        self.yend = yend
+        self.color = (0, 0, 0)
+        start = []
+        end = []
+
+    def draw(self):
+        for i in xstart:
+            for j in ystart:
+                start.append((xstart[i]), (ystart[j]))
+        for i in xend:
+            for j in yend:
+                end.append((xend[i]), (yend[j]))
+
+
+                #establish points
+        #take first two from each array and then draw a line between the two points
+        #look at particle's drawing function
+        #PURPOSE: create a line from those points
 
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('Tutorial 8')
