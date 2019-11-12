@@ -1,4 +1,5 @@
 import cv2 as cv, numpy as np
+import math
 
 # hello this is a test comment
 
@@ -35,6 +36,11 @@ def show_webcam(mirror=False):
         ret, thresh = cv.threshold(img_analyze, 127, 255, cv.THRESH_BINARY)
         contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 
+        #Contour Points??????
+        #print(contours)
+
+
+
         #Drawing Contours
         cv.drawContours(img, contours, -1, (0,255,0), 3)
 
@@ -44,8 +50,47 @@ def show_webcam(mirror=False):
 
         if k == 27:
             break
-        elif k == 32:
+        elif k == 32: #spacebar zeroes contours
             background = img_analyze.copy()
+        elif k == ord('d'): #gets the arrays of start/ending x/y coords
+            xStart = []
+            yStart = []
+            xEnd = []
+            yEnd = []
+
+            x = []
+            y = []
+
+            for i in range(len(contours)):
+                for r in range(len(contours[i])):
+                    x.append(contours[i][r][0][0])
+                    y.append(contours[i][r][0][1])
+
+                xStart.append(x[0])
+                yStart.append(y[0])
+
+                xEnd.append(x[len(x)-1])
+                yEnd.append(y[len(y)-1])
+
+                x = []
+                y = []
+
+
+            print(xStart)
+            print(yStart)
+            print(len(xStart))
+            print(len(yStart))
+
+
+            #print("test")
+            print(xEnd)
+            print(yEnd)
+            print(len(xEnd))
+            print(len(yEnd))
+            print(len(contours))
+
+
+
 
     cv.destroyAllWindows()
 
