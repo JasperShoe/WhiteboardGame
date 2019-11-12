@@ -1,5 +1,7 @@
 import cv2 as cv, numpy as np
 
+#Draft of anti-interference code
+#Does not function
 
 def show_webcam(mirror=False):
     imgAnalyzeCreated = False
