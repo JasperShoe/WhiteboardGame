@@ -5,9 +5,15 @@ import math
 
 def show_webcam(mirror=False):
     cam = cv.VideoCapture(0)
+    # cam.set(cv.CAP_PROP_EXPOSURE, 10)
     background = None
+    xStart = []
+    yStart = []
+    xEnd = []
+    yEnd = []
 
     while True:
+
         ret_val, img = cam.read()
 
         if mirror:
@@ -27,10 +33,10 @@ def show_webcam(mirror=False):
         win_h = len(img_analyze)
         pad_x = 200
         pad_y = 100
-        cv.rectangle(img_analyze, (0, 0), (pad_x, win_h), (0, 0, 0), thickness=-1)
-        cv.rectangle(img_analyze, (pad_x, 0), (win_w-pad_x, pad_y), (0, 0, 0), thickness=-1)
-        cv.rectangle(img_analyze, (win_w-pad_x, 0), (win_w, win_h), (0, 0, 0), thickness=-1)
-        cv.rectangle(img_analyze, (pad_x, win_h-pad_y), (win_w-pad_x, win_h), (0, 0, 0), thickness=-1)
+        cv.rectangle(img_analyze, (0, 0), (10, win_h), (0, 0, 0), thickness=-1)
+        cv.rectangle(img_analyze, (10, 0), (win_w-500, pad_y), (0, 0, 0), thickness=-1)
+        cv.rectangle(img_analyze, (win_w-500, 0), (win_w, win_h), (0, 0, 0), thickness=-1)
+        cv.rectangle(img_analyze, (10, win_h-pad_y), (win_w-500, win_h), (0, 0, 0), thickness=-1)
 
         #Contour Detection
         ret, thresh = cv.threshold(img_analyze, 127, 255, cv.THRESH_BINARY)
@@ -39,6 +45,20 @@ def show_webcam(mirror=False):
         #Contour Points??????
         #print(contours)
 
+
+
+
+
+        for i in range(len(xStart)):
+            cv.line(img, (xStart[i],yStart[i]), (xEnd[i],yEnd[i]), (0, 255, 0), 5)
+
+
+
+
+
+
+
+            # draw contour on the screen
 
 
         #Drawing Contours
@@ -81,6 +101,9 @@ def show_webcam(mirror=False):
 
                 yEnd.append(y[z])
 
+                #draw contour on the screen
+                cv.line(img, (x[0], y[0]), (x[len(x)-1], y[len(y)-1]), (0, 255, 0), 5)
+
                 x = []
                 y = []
 
@@ -96,6 +119,7 @@ def show_webcam(mirror=False):
     cv.destroyAllWindows()
 
 def main():
+
     show_webcam(True)
 
 
