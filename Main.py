@@ -66,28 +66,29 @@ def show_webcam(mirror=False):
                     x.append(contours[i][r][0][0])
                     y.append(contours[i][r][0][1])
 
-                xStart.append(x[0])
-                yStart.append(y[0])
+                xStart.append(min(x))
+                z = np.where(x==min(x))
+                z = z[0][0]
 
-                xEnd.append(x[len(x)-1])
-                yEnd.append(y[len(y)-1])
+                yStart.append(y[z])
+
+
+                xEnd.append(max(x))
+                z = np.where(x==max(x))
+
+
+                z = z[0][0]
+
+                yEnd.append(y[z])
 
                 x = []
                 y = []
 
 
-            print(xStart)
-            print(yStart)
-            print(len(xStart))
-            print(len(yStart))
 
 
-            #print("test")
-            print(xEnd)
-            print(yEnd)
-            print(len(xEnd))
-            print(len(yEnd))
-            print(len(contours))
+
+
 
 
 
