@@ -27,10 +27,10 @@ def show_webcam(mirror=False):
         win_h = len(img_analyze)
         pad_x = 200
         pad_y = 100
-        cv.rectangle(img_analyze, (0, 0), (pad_x, win_h), (0, 0, 0), thickness=-1)
-        cv.rectangle(img_analyze, (pad_x, 0), (win_w-pad_x, pad_y), (0, 0, 0), thickness=-1)
-        cv.rectangle(img_analyze, (win_w-pad_x, 0), (win_w, win_h), (0, 0, 0), thickness=-1)
-        cv.rectangle(img_analyze, (pad_x, win_h-pad_y), (win_w-pad_x, win_h), (0, 0, 0), thickness=-1)
+        cv.rectangle(img_analyze, (0, 0), (10, win_h), (0, 0, 0), thickness=-1)
+        cv.rectangle(img_analyze, (10, 0), (win_w-500, pad_y), (0, 0, 0), thickness=-1)
+        cv.rectangle(img_analyze, (win_w-500, 0), (win_w, win_h), (0, 0, 0), thickness=-1)
+        cv.rectangle(img_analyze, (10, win_h-pad_y), (win_w-500, win_h), (0, 0, 0), thickness=-1)
 
         #Contour Detection
         ret, thresh = cv.threshold(img_analyze, 127, 255, cv.THRESH_BINARY)
@@ -39,6 +39,20 @@ def show_webcam(mirror=False):
         #Contour Points??????
         #print(contours)
 
+
+
+
+
+        for i in range(len(xStart)):
+            cv.line(img, (xStart[i],yStart[i]), (xEnd[i],yEnd[i]), (0, 255, 0), 5)
+
+
+
+
+
+
+
+            # draw contour on the screen
 
 
         #Drawing Contours
@@ -66,20 +80,48 @@ def show_webcam(mirror=False):
                     x.append(contours[i][r][0][0])
                     y.append(contours[i][r][0][1])
 
-                xStart.append(x[0])
-                yStart.append(y[0])
+                xStart.append(min(x))
+                z = np.where(x==min(x))
+                z = z[0][0]
 
-                xEnd.append(x[len(x)-1])
-                yEnd.append(y[len(y)-1])
+                yStart.append(y[z])
+
+
+                xEnd.append(max(x))
+                z = np.where(x==max(x))
+
+
+                z = z[0][0]
+
+                yEnd.append(y[z])
+
+                #draw contour on the screen
+                cv.line(img, (x[0], y[0]), (x[len(x)-1], y[len(y)-1]), (0, 255, 0), 5)
 
                 x = []
                 y = []
+
+
+            print(xStart)
+            print(yStart)
+            print(len(xStart))
+            print(len(yStart))
+
+
+            #print("test")
+            print(xEnd)
+            print(yEnd)
+            print(len(xEnd))
+            print(len(yEnd))
+            print(len(contours))
+
 
 
 
     cv.destroyAllWindows()
 
 def main():
+
     show_webcam(True)
 
 
