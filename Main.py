@@ -76,21 +76,6 @@ def show_webcam(mirror=False):
                 y = []
 
 
-            print(xStart)
-            print(yStart)
-            print(len(xStart))
-            print(len(yStart))
-
-
-            #print("test")
-            print(xEnd)
-            print(yEnd)
-            print(len(xEnd))
-            print(len(yEnd))
-            print(len(contours))
-
-
-
 
     cv.destroyAllWindows()
 
