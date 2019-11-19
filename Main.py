@@ -5,9 +5,15 @@ import math
 
 def show_webcam(mirror=False):
     cam = cv.VideoCapture(0)
+    # cam.set(cv.CAP_PROP_EXPOSURE, 10)
     background = None
+    xStart = []
+    yStart = []
+    xEnd = []
+    yEnd = []
 
     while True:
+
         ret_val, img = cam.read()
 
         if mirror:
@@ -114,7 +120,6 @@ def show_webcam(mirror=False):
             print(len(xEnd))
             print(len(yEnd))
             print(len(contours))
-
 
 
 
