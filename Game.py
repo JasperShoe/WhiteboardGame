@@ -63,9 +63,9 @@ def collideLine(particle, line):
 
     pygame.draw.polygon(screen, BLACK, [[px, py], [xstart, ystart], [xend, yend]], 5)
 
-    side1 = math.sqrt([(xstart-px)*(xstart-px)]+[(ystart-py)*(ystart-py)])
-    side2 = math.sqrt([(xend-xstart)*(xend-xstart)]+[(yend-ystart)*(yend-ystart)])
-    side3 = int(math.sqrt([(xend - px) * (xend - px)] + [(yend - py) * (yend - py)]))
+    side1 = math.sqrt((xstart-px)*(xstart-px)+(ystart-py)*(ystart-py))
+    side2 = math.sqrt((xend-xstart)*(xend-xstart)+(yend-ystart)*(yend-ystart))
+    side3 = int(math.sqrt((xend - px) * (xend - px) + (yend - py) * (yend - py)))
 
     semi = int((side1+side2+side3)/2)
 
@@ -88,7 +88,7 @@ def collideLine(particle, line):
         dy = particle.y - line.y
 
         dist = math.hypot(dx, dy)
-        if dist < p1.size + p2.size:
+        if dist < particle.size + 5:
             tangent = math.atan2(dy, dx)
             angle = 0.5 * math.pi + tangent
 
@@ -156,7 +156,7 @@ class Line():
         self.color = (0, 0, 0)
         start = []
         end = []
-        [(2,3),(3,6)]
+        #[(2,3),(3,6)]
     def draw(self):
         pygame.draw.line(screen, self.color, (int(self.xstart), int(self.ystart)), (int(self.xend), int(self.yend)), self.thickness)
 
