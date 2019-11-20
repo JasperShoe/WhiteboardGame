@@ -4,7 +4,7 @@ import math
 import Game
 
 background_colour = (255, 255, 255)
-(width, height) = (400, 400)
+(width, height) = (770, 520)
 drag = 0.999
 elasticity = 0.75
 gravity = (math.pi, 0.002)
@@ -51,7 +51,7 @@ def collide(p1, p2):
         p2.y += math.cos(angle)
 
 
-def collideLine(particle, line):
+def collideLine(particle, line): #checks if particle is touching a line
     touching = False
     px = particle.x
     py = particle.y
@@ -71,35 +71,31 @@ def collideLine(particle, line):
 
     area = math.sqrt(abs((semi)*(semi-side1)*(semi-side2)*(semi-side3)))
 
+    print(px)
+
     height = int((2*area)/side2)
+    if px < xend and px > xstart: #checks if particle is actually colliding with line and not a ghost line
 
-    if height <= particle.size:
-        touching = True
-        print ("works")
+        if height <= particle.size:
+            touching = True
+            print(area)
 
-    if touching == True:
-        print("works")
-        #calculate circle's trajectory and velocity and take line's equation and calculate the circle's new direction and velocity
-        # dx = particle.x - line.x
-        # dy = particle.y - line.y
-        #
-        # dist = math.hypot(dx, dy)
-        # if dist < particle.size + 5:
-        #     tangent = math.atan2(dy, dx)
-        #     angle = 0.5 * math.pi + tangent
-        #
-        #     angle1 = 2 * tangent - p1.angle
-        #     angle2 = 2 * tangent - p2.angle
-        #     speed1 = p2.speed * elasticity
-        #     speed2 = p1.speed * elasticity
-        #
-        #     (p1.angle, p1.speed) = (angle1, speed1)
-        #     (p2.angle, p2.speed) = (angle2, speed2)
-        #
-        #     p1.x += math.sin(angle)
-        #     p1.y -= math.cos(angle)
-        #     p2.x -= math.sin(angle)
-        #     p2.y += math.cos(angle)
+            print ("works")
+            #print(height)
+
+    #
+    if touching == True: #computes the particle's new direction
+        lineXCompenent = line.xend - linetest.xstart
+        lineYCompenent = line.yend - linetest.ystart
+        lineAngle = math.degrees(math.atan(lineYCompenent/lineXCompenent))
+
+        particleAngle = math.degrees(particle.angle)
+
+        angleDifferences = particleAngle - lineAngle
+        newAngle = 180 + lineAngle - particleAngle
+        particle.angle = math.radians(newAngle)
+
+
 
 
 class Particle:
