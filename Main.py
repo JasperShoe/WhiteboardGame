@@ -1,5 +1,7 @@
 import cv2 as cv, numpy as np
 import Game
+from multiprocessing import Process
+import threading
 import math
 
 # hello this is a test comment
@@ -39,7 +41,6 @@ def show_webcam(mirror=False):
         pad_x = 200
         pad_y = 100
         cv.rectangle(img_analyze, (0, 0), (10, win_h), (0, 0, 0), thickness=-1)
-        print(win_h-200)
         cv.rectangle(img_analyze, (10, 0), (win_w-500, pad_y), (0, 0, 0), thickness=-1)
         cv.rectangle(img_analyze, (win_w-500, 0), (win_w, win_h), (0, 0, 0), thickness=-1)
         cv.rectangle(img_analyze, (10, win_h-pad_y), (win_w-500, win_h), (0, 0, 0), thickness=-1)
@@ -136,9 +137,21 @@ def show_webcam(mirror=False):
     cv.destroyAllWindows()
 
 def main():
-
     show_webcam(True)
-    game = Game
+
 
 if __name__ == '__main__':
-    main()
+    game = Game
+
+    t1 = threading.Thread(target=main(), args=())
+    t2 = threading.Thread(target=game.Game(), args=())
+    t1.start()
+    t2.start()
+    t1.join()
+    t2.join()
+
+
+    # p = Process(target=game.Game())
+    # p2 = Process(target=main())
+    # p.start()
+    # p2.start()
