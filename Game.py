@@ -1,218 +1,220 @@
-import pygame
-import random
-import math
-import Game
+def Game():
 
-background_colour = (255, 255, 255)
-(width, height) = (770, 520)
-drag = 0.999
-elasticity = 0.75
-gravity = (math.pi, 0.002)
-Game = None
-touching = False
+    import pygame
+    import random
+    import math
+    import Game
 
-def addVectors(angle1, length1, angle2, length2):
-    x = math.sin(angle1) * length1 + math.sin(angle2) * length2
-    y = math.cos(angle1) * length1 + math.cos(angle2) * length2
-    Game.py: 14
-    angle = 0.5 * math.pi - math.atan2(y, x)
-    length = math.hypot(x, y)
-
-    return (angle, length)
-
-
-def findParticle(particles, x, y):
-    for p in particles:
-        if math.hypot(p.x - x, p.y - y) <= p.size:
-            return p
-    return None
-
-
-def collide(p1, p2):
-    dx = p1.x - p2.x
-    dy = p1.y - p2.y
-
-    dist = math.hypot(dx, dy)
-    if dist < p1.size + p2.size:
-        tangent = math.atan2(dy, dx)
-        angle = 0.5 * math.pi + tangent
-
-        angle1 = 2 * tangent - p1.angle
-        angle2 = 2 * tangent - p2.angle
-        speed1 = p2.speed * elasticity
-        speed2 = p1.speed * elasticity
-
-        (p1.angle, p1.speed) = (angle1, speed1)
-        (p2.angle, p2.speed) = (angle2, speed2)
-
-        p1.x += math.sin(angle)
-        p1.y -= math.cos(angle)
-        p2.x -= math.sin(angle)
-        p2.y += math.cos(angle)
-
-
-def collideLine(particle, line): #checks if particle is touching a line
+    background_colour = (255, 255, 255)
+    (width, height) = (770, 520)
+    drag = 0.999
+    elasticity = 0.75
+    gravity = (math.pi, 0.002)
+    Game = None
     touching = False
-    px = particle.x
-    py = particle.y
 
-    xstart = line.xstart
-    ystart = line.ystart
-    xend = line.xend
-    yend = line.yend
+    def addVectors(angle1, length1, angle2, length2):
+        x = math.sin(angle1) * length1 + math.sin(angle2) * length2
+        y = math.cos(angle1) * length1 + math.cos(angle2) * length2
+        Game.py: 14
+        angle = 0.5 * math.pi - math.atan2(y, x)
+        length = math.hypot(x, y)
 
-    pygame.draw.polygon(screen, (0, 0, 0), [[px, py], [xstart, ystart], [xend, yend]], 5)
-
-    side1 = math.sqrt(((xstart-px)*(xstart-px))+((ystart-py)*(ystart-py)))
-    side2 = math.sqrt(((xend-xstart)*(xend-xstart))+((yend-ystart)*(yend-ystart)))
-    side3 = math.sqrt(((xend - px) * (xend - px)) + ((yend - py) * (yend - py)))
-
-    semi = int((side1+side2+side3)/2)
-
-    area = math.sqrt(abs((semi)*(semi-side1)*(semi-side2)*(semi-side3)))
-
-    print(px)
-
-    height = int((2*area)/side2)
-    if px < xend and px > xstart: #checks if particle is actually colliding with line and not a ghost line
-
-        if height <= particle.size:
-            touching = True
-            print(area)
-
-            print ("works")
-            #print(height)
-
-    #
-    if touching == True: #computes the particle's new direction
-        lineXCompenent = line.xend - linetest.xstart
-        lineYCompenent = line.yend - linetest.ystart
-        lineAngle = math.degrees(math.atan(lineYCompenent/lineXCompenent))
-
-        particleAngle = math.degrees(particle.angle)
-
-        angleDifferences = particleAngle - lineAngle
-        newAngle = 180 + lineAngle - particleAngle
-        particle.angle = math.radians(newAngle)
+        return (angle, length)
 
 
+    def findParticle(particles, x, y):
+        for p in particles:
+            if math.hypot(p.x - x, p.y - y) <= p.size:
+                return p
+        return None
 
 
-class Particle:
-    def __init__(self, x, y, size):
-        self.x = x
-        self.y = y
-        self.size = size
-        self.colour = (0, 0, 255)
-        self.thickness = 0
-        self.speed = 0
-        self.angle = 0
+    def collide(p1, p2):
+        dx = p1.x - p2.x
+        dy = p1.y - p2.y
 
-    def display(self):
-        pygame.draw.circle(screen, self.colour, (int(self.x), int(self.y)), self.size, self.thickness)
+        dist = math.hypot(dx, dy)
+        if dist < p1.size + p2.size:
+            tangent = math.atan2(dy, dx)
+            angle = 0.5 * math.pi + tangent
 
-    def move(self):
-        (self.angle, self.speed) = addVectors(self.angle, self.speed, math.pi, 0.002)
-        self.x += math.sin(self.angle) * self.speed
-        self.y -= math.cos(self.angle) * self.speed
-        self.speed *= drag
+            angle1 = 2 * tangent - p1.angle
+            angle2 = 2 * tangent - p2.angle
+            speed1 = p2.speed * elasticity
+            speed2 = p1.speed * elasticity
 
-    def bounce(self):
-        if self.x > width - self.size:
-            self.x = 2 * (width - self.size) - self.x
-            self.angle = - self.angle
-            self.speed *= elasticity
+            (p1.angle, p1.speed) = (angle1, speed1)
+            (p2.angle, p2.speed) = (angle2, speed2)
 
-        elif self.x < self.size:
-            self.x = 2 * self.size - self.x
-            self.angle = - self.angle
-            self.speed *= elasticity
+            p1.x += math.sin(angle)
+            p1.y -= math.cos(angle)
+            p2.x -= math.sin(angle)
+            p2.y += math.cos(angle)
 
-        if self.y > height - self.size:
-            self.y = 2 * (height - self.size) - self.y
-            self.angle = math.pi - self.angle
-            self.speed *= elasticity
 
-        elif self.y < self.size:
-            self.y = 2 * self.size - self.y
-            self.angle = math.pi - self.angle
-            self.speed *= elasticity
+    def collideLine(particle, line): #checks if particle is touching a line
+        touching = False
+        px = particle.x
+        py = particle.y
 
-class Line():
-    def __init__(self, xstart, ystart, xend, yend):
-        self.xstart = xstart
-        self.ystart = ystart
-        self.xend = xend
-        self.yend = yend
-        self.thickness = 5
-        self.color = (0, 0, 0)
-        start = []
-        end = []
-    def draw(self):
-        pygame.draw.line(screen, self.color, (int(self.xstart), int(self.ystart)), (int(self.xend), int(self.yend)), self.thickness)
+        xstart = line.xstart
+        ystart = line.ystart
+        xend = line.xend
+        yend = line.yend
+
+        pygame.draw.polygon(screen, (0, 0, 0), [[px, py], [xstart, ystart], [xend, yend]], 5)
+
+        side1 = math.sqrt(((xstart-px)*(xstart-px))+((ystart-py)*(ystart-py)))
+        side2 = math.sqrt(((xend-xstart)*(xend-xstart))+((yend-ystart)*(yend-ystart)))
+        side3 = math.sqrt(((xend - px) * (xend - px)) + ((yend - py) * (yend - py)))
+
+        semi = int((side1+side2+side3)/2)
+
+        area = math.sqrt(abs((semi)*(semi-side1)*(semi-side2)*(semi-side3)))
+
+        print(px)
+
+        height = int((2*area)/side2)
+        if px < xend and px > xstart: #checks if particle is actually colliding with line and not a ghost line
+
+            if height <= particle.size:
+                touching = True
+                print(area)
+
+                print ("works")
+                #print(height)
+
+        #
+        if touching == True: #computes the particle's new direction
+            lineXCompenent = line.xend - linetest.xstart
+            lineYCompenent = line.yend - linetest.ystart
+            lineAngle = math.degrees(math.atan(lineYCompenent/lineXCompenent))
+
+            particleAngle = math.degrees(particle.angle)
+
+            angleDifferences = particleAngle - lineAngle
+            newAngle = 180 + lineAngle - particleAngle
+            particle.angle = math.radians(newAngle)
 
 
 
-        # for i in xstart:
-        #     for j in ystart:
-        #         start.append((xstart[i]), (ystart[j]))
-        # for i in xend:
-        #     for j in yend:
-        #         end.append((xend[i]), (yend[j]))
 
-                #establish points
-        #take first two from each array and then draw a line between the two points
-        #look at particle's drawing function
-        #PURPOSE: create a line from those points
+    class Particle:
+        def __init__(self, x, y, size):
+            self.x = x
+            self.y = y
+            self.size = size
+            self.colour = (0, 0, 255)
+            self.thickness = 0
+            self.speed = 0
+            self.angle = 0
 
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption('Tutorial 8')
+        def display(self):
+            pygame.draw.circle(screen, self.colour, (int(self.x), int(self.y)), self.size, self.thickness)
 
-number_of_particles = 1
-my_particles = []
+        def move(self):
+            (self.angle, self.speed) = addVectors(self.angle, self.speed, math.pi, 0.002)
+            self.x += math.sin(self.angle) * self.speed
+            self.y -= math.cos(self.angle) * self.speed
+            self.speed *= drag
 
-linetest = Line(50, 50, 200, 200)
+        def bounce(self):
+            if self.x > width - self.size:
+                self.x = 2 * (width - self.size) - self.x
+                self.angle = - self.angle
+                self.speed *= elasticity
 
-for n in range(number_of_particles):
-    size = random.randint(10, 20)
-    x = random.randint(size, width - size)
-    y = random.randint(size, height - size)
+            elif self.x < self.size:
+                self.x = 2 * self.size - self.x
+                self.angle = - self.angle
+                self.speed *= elasticity
 
-    particle = Particle(x, y, size)
-    particle.speed = random.random()
-    particle.angle = random.uniform(0, math.pi * 2)
+            if self.y > height - self.size:
+                self.y = 2 * (height - self.size) - self.y
+                self.angle = math.pi - self.angle
+                self.speed *= elasticity
 
-    my_particles.append(particle)
+            elif self.y < self.size:
+                self.y = 2 * self.size - self.y
+                self.angle = math.pi - self.angle
+                self.speed *= elasticity
 
-selected_particle = None
-running = True
-while running:
+    class Line():
+        def __init__(self, xstart, ystart, xend, yend):
+            self.xstart = xstart
+            self.ystart = ystart
+            self.xend = xend
+            self.yend = yend
+            self.thickness = 5
+            self.color = (0, 0, 0)
+            start = []
+            end = []
+        def draw(self):
+            pygame.draw.line(screen, self.color, (int(self.xstart), int(self.ystart)), (int(self.xend), int(self.yend)), self.thickness)
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+
+
+            # for i in xstart:
+            #     for j in ystart:
+            #         start.append((xstart[i]), (ystart[j]))
+            # for i in xend:
+            #     for j in yend:
+            #         end.append((xend[i]), (yend[j]))
+
+                    #establish points
+            #take first two from each array and then draw a line between the two points
+            #look at particle's drawing function
+            #PURPOSE: create a line from those points
+
+    screen = pygame.display.set_mode((width, height))
+    pygame.display.set_caption('Tutorial 8')
+
+    number_of_particles = 1
+    my_particles = []
+
+    linetest = Line(50, 50, 200, 200)
+
+    for n in range(number_of_particles):
+        size = random.randint(10, 20)
+        x = random.randint(size, width - size)
+        y = random.randint(size, height - size)
+
+        particle = Particle(x, y, size)
+        particle.speed = random.random()
+        particle.angle = random.uniform(0, math.pi * 2)
+
+        my_particles.append(particle)
+
+    selected_particle = None
+    running = True
+    while running:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                (mouseX, mouseY) = pygame.mouse.get_pos()
+                selected_particle = findParticle(my_particles, mouseX, mouseY)
+            elif event.type == pygame.MOUSEBUTTONUP:
+                selected_particle = None
+
+        if selected_particle:
             (mouseX, mouseY) = pygame.mouse.get_pos()
-            selected_particle = findParticle(my_particles, mouseX, mouseY)
-        elif event.type == pygame.MOUSEBUTTONUP:
-            selected_particle = None
+            dx = mouseX - selected_particle.x
+            dy = mouseY - selected_particle.y
+            selected_particle.angle = 0.5 * math.pi + math.atan2(dy, dx)
+            selected_particle.speed = math.hypot(dx, dy) * 0.1
 
-    if selected_particle:
-        (mouseX, mouseY) = pygame.mouse.get_pos()
-        dx = mouseX - selected_particle.x
-        dy = mouseY - selected_particle.y
-        selected_particle.angle = 0.5 * math.pi + math.atan2(dy, dx)
-        selected_particle.speed = math.hypot(dx, dy) * 0.1
+        screen.fill(background_colour)
 
-    screen.fill(background_colour)
+        for i, particle in enumerate(my_particles):
 
-    for i, particle in enumerate(my_particles):
+            particle.move()
+            particle.bounce()
+            collideLine(particle, linetest)
+            particle.display()
 
-        particle.move()
-        particle.bounce()
-        collideLine(particle, linetest)
-        particle.display()
+        linetest.draw()
 
-    linetest.draw()
-
-    pygame.display.flip()
+        pygame.display.flip()

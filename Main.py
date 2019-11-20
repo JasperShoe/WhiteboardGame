@@ -138,7 +138,7 @@ def show_webcam(mirror=False):
 def main():
 
     show_webcam(True)
-    Game
+    game = Game
 
 if __name__ == '__main__':
     main()
