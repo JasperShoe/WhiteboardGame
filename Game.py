@@ -1,5 +1,3 @@
-# def Game():
-
 import pygame
 import random
 import math
@@ -9,9 +7,12 @@ background_colour = (255, 255, 255)
 (width, height) = (770, 520)
 drag = 0.999
 elasticity = 0.75
-gravity = (math.pi, 0.002)
+gravity = (math.pi, 0.005)
 Game = None
 touching = False
+
+
+
 
 def addVectors(angle1, length1, angle2, length2):
     x = math.sin(angle1) * length1 + math.sin(angle2) * length2
@@ -73,17 +74,17 @@ def collideLine(particle, line): #checks if particle is touching a line
 
     area = math.sqrt(abs((semi)*(semi-side1)*(semi-side2)*(semi-side3)))
 
-    print(px)
+    # print(px)
 
     height = int((2*area)/side2)
     if px < xend and px > xstart: #checks if particle is actually colliding with line and not a ghost line
 
         if height <= particle.size:
             touching = True
-            print(area)
-
-            print ("works")
-            #print(height)
+            # print(area)
+            #
+            # print ("works")
+            # #print(height)
 
     #
         if touching == True: #computes the particle's new direction
@@ -98,8 +99,6 @@ def collideLine(particle, line): #checks if particle is touching a line
             particle.angle = math.radians(newAngle)
             return True
         return False
-
-
 
 
 class Particle:
@@ -141,6 +140,10 @@ class Particle:
             self.y = 2 * self.size - self.y
             self.angle = math.pi - self.angle
             self.speed *= elasticity
+
+
+player = Particle(500, 500, 20)
+
 
 class Line():
     def __init__(self, xstart, ystart, xend, yend):

@@ -1,13 +1,10 @@
 import cv2 as cv, numpy as np
-import Game
+import Game as game
 from multiprocessing import Process
 import threading
 import math
 
 # hello this is a test comment
-
-
-
 
 
 def show_webcam(mirror=False):
@@ -49,30 +46,15 @@ def show_webcam(mirror=False):
         ret, thresh = cv.threshold(img_analyze, 127, 255, cv.THRESH_BINARY)
         contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 
-        #Contour Points??????
-        #print(contours)
-
-
-
-
-
         for i in range(len(xStart)):
             cv.line(img, (xStart[i],yStart[i]), (xEnd[i],yEnd[i]), (0, 255, 0), 5)
 
-
-
-
-
-
-
             # draw contour on the screen
-
-
-        #Drawing Contours
-        cv.drawContours(img, contours, -1, (0,255,0), 3)
-
-        cv.imshow("Whiteboard Game", img)
-        cv.moveWindow("Whiteboard Game", 0, 0)
+             #Drawing Contours
+        # cv.drawContours(img, contours, -1, (0,255,0), 3)
+        #
+        # cv.imshow("Whiteboard Game", img)
+        # cv.moveWindow("Whiteboard Game", 0, 0)
 
         k = cv.waitKey(1)
 
@@ -119,36 +101,37 @@ def show_webcam(mirror=False):
                 y = []
 
 
-            print(xStart)
-            print(yStart)
-            print(len(xStart))
-            print(len(yStart))
-
-
-            #print("test")
-            print(xEnd)
-            print(yEnd)
-            print(len(xEnd))
-            print(len(yEnd))
-            print(len(contours))
-
-
+            # print(xStart)
+            # print(yStart)
+            # print(len(xStart))
+            # print(len(yStart))
+            #
+            #
+            # #print("test")
+            # print(xEnd)
+            # print(yEnd)
+            # print(len(xEnd))
+            # print(len(yEnd))
+            # print(len(contours))
+        center = (int(game.player.x), int(game.player.y))
+        cv.circle(img, center, game.player.size, (255, 0, 0))
 
     cv.destroyAllWindows()
 
 def main():
     show_webcam(True)
+    # print("hi")
 
 
 if __name__ == '__main__':
-    game = Game
-
-    t1 = threading.Thread(target=main(), args=())
-    t2 = threading.Thread(target=game.Game(), args=())
-    t1.start()
-    t2.start()
-    t1.join()
-    t2.join()
+    main()
+    #
+    # t1 = threading.Thread(target=show_webcam(True), args=())
+    # # t2 = threading.Thread(target=game.Game(), args=())
+    # t2.start()
+    # t1.start()
+    # t1.join()
+    # t2.join()
 
 
     # p = Process(target=game.Game())
