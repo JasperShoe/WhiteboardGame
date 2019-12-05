@@ -270,7 +270,9 @@ while True:
     screen.blit(frame, (0, 0))
 
     lines = []
-
+    for i in xStart:
+        lines.append(Line(xStart[i], yStart[i], xEnd[i], yEnd[i]))
+        lines[i].draw()
     player = Particle(100, 100, 20)
     player.display()
 
