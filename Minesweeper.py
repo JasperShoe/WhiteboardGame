@@ -10,13 +10,13 @@ camera = cv.VideoCapture(0)
 pygame.init()
 pygame.display.set_caption("OpenCV camera stream on Pygame")
 screen = pygame.display.set_mode([1280, 720])
+width = 1280
+height = 720
 
 drag = 0.999
 elasticity = 0.75
 gravity = (math.pi, 0.005)
 touching = False
-w = 0
-h = 0
 
 img = None
 
@@ -131,15 +131,15 @@ class Particle:
         pygame.draw.circle(screen, self.colour, (int(self.x), int(self.y)), self.size, self.thickness)
 
     def move(self):
-        (self.angle, self.speed) = addVectors(self.angle, self.speed, math.pi, 0.002)
+        (self.angle, self.speed) = addVectors(self.angle, self.speed, math.pi, 3)
         self.x += math.sin(self.angle) * self.speed
         self.y -= math.cos(self.angle) * self.speed
         self.speed *= drag
 
 
     def bounce(self):
-        if self.x > 100 - self.size:
-            self.x = 2 * (100 - self.size) - self.x
+        if self.x > width - self.size:
+            self.x = 2 * (width - self.size) - self.x
             self.angle = - self.angle
             self.speed *= elasticity
 
@@ -148,8 +148,8 @@ class Particle:
             self.angle = - self.angle
             self.speed *= elasticity
 
-        if self.y > 100 - self.size:
-            self.y = 2 * (100 - self.size) - self.y
+        if self.y > height - self.size:
+            self.y = 2 * (height - self.size) - self.y
             self.angle = math.pi - self.angle
             self.speed *= elasticity
 
@@ -198,7 +198,6 @@ while True:
     cv.rectangle(img_analyze, (win_w - 500, 0), (win_w, win_h), (0, 0, 0), thickness=-1)
     cv.rectangle(img_analyze, (10, win_h - pad_y), (win_w - 500, win_h), (0, 0, 0), thickness=-1)
 
-    # img = cv.flip(img, 1)
 
     # Contour Detection
     ret, thresh = cv.threshold(img_analyze, 127, 255, cv.THRESH_BINARY)
@@ -350,7 +349,6 @@ while True:
     lines.append(test)
 
 
-    player = Particle(100, 100, 20)
     selected_particle = None
 
     #runs the pygame code
@@ -386,9 +384,10 @@ while True:
 
     for i in range(len(lines)):
         lines[i].draw()
-        collideLine(player, lines[i])
+        # collideLine(player, lines[i])
 
 
+    # pygame.transform.flip(screen, True, False)
     pygame.display.update()
 
     for event in pygame.event.get():
