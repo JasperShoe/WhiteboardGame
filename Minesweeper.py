@@ -15,8 +15,8 @@ drag = 0.999
 elasticity = 0.75
 gravity = (math.pi, 0.005)
 touching = False
-w = 0
-h = 0
+w = 1280
+h = 720
 
 img = None
 
@@ -80,41 +80,44 @@ def collideLine(particle, line): #checks if particle is touching a line
     xend = line.xend
     yend = line.yend
 
-    pygame.draw.polygon(screen, (0, 0, 0), [[px, py], [xstart, ystart], [xend, yend]], 5)
+    #xpygame.draw.polygon(screen, (0, 0, 0), [[px, py], [xstart, ystart], [xend, yend]], 5)
 
     side1 = math.sqrt(((xstart-px)*(xstart-px))+((ystart-py)*(ystart-py)))
     side2 = math.sqrt(((xend-xstart)*(xend-xstart))+((yend-ystart)*(yend-ystart)))
+
+
     side3 = math.sqrt(((xend - px) * (xend - px)) + ((yend - py) * (yend - py)))
+    if side2 > 0:
+        semi = int((side1+side2+side3)/2)
 
-    semi = int((side1+side2+side3)/2)
+        area = math.sqrt(abs((semi)*(semi-side1)*(semi-side2)*(semi-side3)))
 
-    area = math.sqrt(abs((semi)*(semi-side1)*(semi-side2)*(semi-side3)))
+        # print(px)
+        print(side2)
+        height = int((2*area)/side2)
+        #height = 2
+        if px < xend and px > xstart: #checks if particle is actually colliding with line and not a ghost line
 
-    # print(px)
+            if height <= particle.size:
+                touching = True
+                # print(area)
+                #
+                # print ("works")
+                # #print(height)
 
-    height = int((2*area)/side2)
-    if px < xend and px > xstart: #checks if particle is actually colliding with line and not a ghost line
+        #
+            if touching == True: #computes the particle's new direction
+                lineXCompenent = line.xend - line.xstart
+                lineYCompenent = line.yend - line.ystart
+                lineAngle = math.degrees(math.atan(lineYCompenent/lineXCompenent))
 
-        if height <= particle.size:
-            touching = True
-            # print(area)
-            #
-            # print ("works")
-            # #print(height)
+                particleAngle = math.degrees(particle.angle)
 
-    #
-        if touching == True: #computes the particle's new direction
-            lineXCompenent = line.xend - line.xstart
-            lineYCompenent = line.yend - line.ystart
-            lineAngle = math.degrees(math.atan(lineYCompenent/lineXCompenent))
-
-            particleAngle = math.degrees(particle.angle)
-
-            angleDifferences = particleAngle - lineAngle
-            newAngle = 180 + lineAngle - particleAngle
-            particle.angle = math.radians(newAngle)
-            return True
-        return False
+                angleDifferences = particleAngle - lineAngle
+                newAngle = 180 + lineAngle - particleAngle
+                particle.angle = math.radians(newAngle)
+                return True
+            return False
 
 
 class Particle:
@@ -138,8 +141,8 @@ class Particle:
 
 
     def bounce(self):
-        if self.x > 100 - self.size:
-            self.x = 2 * (100 - self.size) - self.x
+        if self.x > w - self.size:
+            self.x = 2 * (w - self.size) - self.x
             self.angle = - self.angle
             self.speed *= elasticity
 
@@ -148,8 +151,8 @@ class Particle:
             self.angle = - self.angle
             self.speed *= elasticity
 
-        if self.y > 100 - self.size:
-            self.y = 2 * (100 - self.size) - self.y
+        if self.y > h - self.size:
+            self.y = 2 * (h - self.size) - self.y
             self.angle = math.pi - self.angle
             self.speed *= elasticity
 
@@ -218,7 +221,7 @@ while True:
     events = pygame.event.get()
     keys = pygame.key.get_pressed()
     if keys[K_d]:
-        print("hola")
+        #print("hola")
         xStart = []
         yStart = []
         xEnd = []
@@ -322,8 +325,7 @@ while True:
     #             # print(len(yEnd))
     #             # print(len(contours))
     #             break
-    if not k == -1:
-        print(k)
+
     if k == 27:
         sys.exit(0)
 
@@ -346,11 +348,11 @@ while True:
         touchedLine.append(0)
     # print(len(xStart))
 
-    test = Line(50, 50, 100, 100)
-    lines.append(test)
+    #test = Line(50, 50, 100, 100)
+    #lines.append(test)
 
 
-    player = Particle(100, 100, 20)
+    #player = Particle(100, 100, 20)
     selected_particle = None
 
     #runs the pygame code
@@ -375,7 +377,7 @@ while True:
     player.move()
     player.bounce()
     player.display()
-    test.draw()
+    #test.draw()
 
     # for i, Line in enumerate(lines):
     #     # if touchedLine[i] < 0:
