@@ -59,6 +59,7 @@ def show_webcam(mirror=False):
 
         k = cv.waitKey(1)
 
+
         if k == 27:
             break
         elif k == 32: #spacebar zeroes contours
