@@ -392,7 +392,8 @@ while True:
     #     lines[i].draw()
     for i in range(len(lines)):
         lines[i].draw()
-        # collideLine(player, lines[i])
+        collideLine(player, lines[i])
+
 
 
     # pygame.transform.flip(screen, True, False)
