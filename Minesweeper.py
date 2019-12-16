@@ -10,6 +10,8 @@ camera = cv.VideoCapture(0)
 pygame.init()
 pygame.display.set_caption("OpenCV camera stream on Pygame")
 screen = pygame.display.set_mode([1280, 720])
+width = 1280
+height = 720
 
 drag = 0.999
 elasticity = 0.75
@@ -80,12 +82,10 @@ def collideLine(particle, line): #checks if particle is touching a line
     xend = line.xend
     yend = line.yend
 
-    #xpygame.draw.polygon(screen, (0, 0, 0), [[px, py], [xstart, ystart], [xend, yend]], 5)
+    pygame.draw.polygon(screen, (0, 0, 0), [[px, py], [xstart, ystart], [xend, yend]], 5)
 
     side1 = math.sqrt(((xstart-px)*(xstart-px))+((ystart-py)*(ystart-py)))
     side2 = math.sqrt(((xend-xstart)*(xend-xstart))+((yend-ystart)*(yend-ystart)))
-
-
     side3 = math.sqrt(((xend - px) * (xend - px)) + ((yend - py) * (yend - py)))
     if side2 > 0:
         semi = int((side1+side2+side3)/2)
@@ -134,15 +134,15 @@ class Particle:
         pygame.draw.circle(screen, self.colour, (int(self.x), int(self.y)), self.size, self.thickness)
 
     def move(self):
-        (self.angle, self.speed) = addVectors(self.angle, self.speed, math.pi, 0.002)
+        (self.angle, self.speed) = addVectors(self.angle, self.speed, math.pi, 3)
         self.x += math.sin(self.angle) * self.speed
         self.y -= math.cos(self.angle) * self.speed
         self.speed *= drag
 
 
     def bounce(self):
-        if self.x > w - self.size:
-            self.x = 2 * (w - self.size) - self.x
+        if self.x > width - self.size:
+            self.x = 2 * (width - self.size) - self.x
             self.angle = - self.angle
             self.speed *= elasticity
 
@@ -151,8 +151,8 @@ class Particle:
             self.angle = - self.angle
             self.speed *= elasticity
 
-        if self.y > h - self.size:
-            self.y = 2 * (h - self.size) - self.y
+        if self.y > height - self.size:
+            self.y = 2 * (height - self.size) - self.y
             self.angle = math.pi - self.angle
             self.speed *= elasticity
 
@@ -325,7 +325,8 @@ while True:
     #             # print(len(yEnd))
     #             # print(len(contours))
     #             break
-
+    if not k == -1:
+        print(k)
     if k == 27:
         sys.exit(0)
 
@@ -388,9 +389,10 @@ while True:
 
     for i in range(len(lines)):
         lines[i].draw()
-        collideLine(player, lines[i])
+        # collideLine(player, lines[i])
 
 
+    # pygame.transform.flip(screen, True, False)
     pygame.display.update()
 
     for event in pygame.event.get():
