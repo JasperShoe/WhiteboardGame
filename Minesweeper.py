@@ -388,6 +388,7 @@ while True:
         collideLine(player, lines[i])
 
 
+
     # pygame.transform.flip(screen, True, False)
     pygame.display.update()
 
