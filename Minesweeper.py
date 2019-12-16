@@ -17,8 +17,6 @@ drag = 0.999
 elasticity = 0.75
 gravity = (math.pi, 0.005)
 touching = False
-w = 1280
-h = 720
 
 img = None
 
@@ -93,7 +91,6 @@ def collideLine(particle, line): #checks if particle is touching a line
         area = math.sqrt(abs((semi)*(semi-side1)*(semi-side2)*(semi-side3)))
 
         # print(px)
-        print(side2)
         height = int((2*area)/side2)
         #height = 2
         if px < xend and px > xstart: #checks if particle is actually colliding with line and not a ghost line
@@ -201,7 +198,6 @@ while True:
     cv.rectangle(img_analyze, (win_w - 500, 0), (win_w, win_h), (0, 0, 0), thickness=-1)
     cv.rectangle(img_analyze, (10, win_h - pad_y), (win_w - 500, win_h), (0, 0, 0), thickness=-1)
 
-    # img = cv.flip(img, 1)
 
     # Contour Detection
     ret, thresh = cv.threshold(img_analyze, 127, 255, cv.THRESH_BINARY)
@@ -339,6 +335,8 @@ while True:
 
     lines = []
 
+    print(len(xStart))
+
     #for loop to import line goes here
     for j in range(len(xStart)):
         lines.append(Line(xStart[j], yStart[j], xEnd[j], yEnd[j]))
@@ -353,7 +351,6 @@ while True:
     #lines.append(test)
 
 
-    #player = Particle(100, 100, 20)
     selected_particle = None
 
     #runs the pygame code
