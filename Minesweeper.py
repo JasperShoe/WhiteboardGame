@@ -15,7 +15,7 @@ height = 720
 
 drag = 0.999
 elasticity = 0.75
-gravity = (math.pi, 0.005)
+gravity = (math.pi, 0.003)
 touching = False
 
 img = None
@@ -217,7 +217,7 @@ while True:
     events = pygame.event.get()
     keys = pygame.key.get_pressed()
     if keys[K_d]:
-        #print("hola")
+        print("hola")
         xStart = []
         yStart = []
         xEnd = []
@@ -329,7 +329,7 @@ while True:
     #begin pygame code
     screen.fill([0, 0, 0])
     frame = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
-    frame = np.rot90(frame)
+    frame = frame.swapaxes(0, 1)
     frame = pygame.surfarray.make_surface(frame)
     screen.blit(frame, (0, 0))
 
@@ -338,13 +338,13 @@ while True:
     print(len(xStart))
 
     #for loop to import line goes here
-    for j in range(len(xStart)):
-        lines.append(Line(xStart[j], yStart[j], xEnd[j], yEnd[j]))
-        # jjj = Line(50, 50, 100, 100)
-        # lines.append(jjj)
+    # for j in range(len(xStart)):
+    #     lines.append(Line(xStart[j], yStart[j], xEnd[j], yEnd[j]))
+    #     # jjj = Line(50, 50, 100, 100)
+    #     # lines.append(jjj)
     touchedLine = []
-    for x in range(len(lines)):
-        touchedLine.append(0)
+    # for x in range(len(lines)):
+    #     touchedLine.append(0)
     # print(len(xStart))
 
     #test = Line(50, 50, 100, 100)
@@ -354,14 +354,23 @@ while True:
     selected_particle = None
 
     #runs the pygame code
+    print(len(pygame.event.get()))
     for event in pygame.event.get():
+        #print(event)
+
         if event.type == pygame.QUIT:
             running = False
+            print("k")
         elif event.type == pygame.MOUSEBUTTONDOWN:
             (mouseX, mouseY) = pygame.mouse.get_pos()
             selected_particle = player
+            print("on")
+
+
         elif event.type == pygame.MOUSEBUTTONUP:
             selected_particle = None
+            print("off")
+
 
     if selected_particle:
         (mouseX, mouseY) = pygame.mouse.get_pos()
@@ -369,8 +378,6 @@ while True:
         dy = mouseY - selected_particle.y
         selected_particle.angle = 0.5 * math.pi + math.atan2(dy, dx)
         selected_particle.speed = math.hypot(dx, dy) * 0.1
-
-
 
     player.move()
     player.bounce()
@@ -383,19 +390,16 @@ while True:
     #     #         touchedLine[i] = 10
     #     # touchedLine[i] -= 1
     #     lines[i].draw()
-
     for i in range(len(lines)):
         lines[i].draw()
         # collideLine(player, lines[i])
 
 
     # pygame.transform.flip(screen, True, False)
+
     pygame.display.update()
 
-    for event in pygame.event.get():
-        if event.type == KEYDOWN:
-            if event == ord('h'):
-                print("h")
+
 
 
 

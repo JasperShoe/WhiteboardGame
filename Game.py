@@ -74,11 +74,18 @@ def collideLine(particle, line): #checks if particle is touching a line
 
     area = math.sqrt(abs((semi)*(semi-side1)*(semi-side2)*(semi-side3)))
 
-    # print(px)
 
     height = int((2*area)/side2)
-    if px < xend and px > xstart: #checks if particle is actually colliding with line and not a ghost line
+    print(xstart)
+    print(xend)
+    print(ystart)
+    print(yend)
+    print(py)
+    print(px)
+    print("cut")
 
+    if px < xend and px > xstart or py < yend and py > ystart or py > yend and py < ystart or px > xend and px < xstart: #checks if particle is actually colliding with line and not a ghost line
+        print("ll")
         if height <= particle.size:
             touching = True
             # print(area)
@@ -180,6 +187,8 @@ pygame.display.set_caption('Tutorial 8')
 
 lines = []
 #eventually import lines coords from Main here
+lines.append(Line(400, 400, 300, 200))
+
 lines.append(Line(50, 50, 200, 200))
 
 touchedLine = []
@@ -221,9 +230,13 @@ while running:
     screen.fill(background_colour)
 
     for i, Line in enumerate(lines):
+
         if touchedLine[i] < 0:
+            #print(i)
             if collideLine(player, lines[i]) == True:
                 touchedLine[i] = 10
+                print("l")
+
         touchedLine[i] -= 1
         lines[i].draw()
 
