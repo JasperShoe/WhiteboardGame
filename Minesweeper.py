@@ -335,6 +335,8 @@ while True:
 
     lines = []
 
+    print(len(xStart))
+
     #for loop to import line goes here
     for j in range(len(xStart)):
         lines.append(Line(xStart[j], yStart[j], xEnd[j], yEnd[j]))
@@ -373,7 +375,6 @@ while True:
     player.move()
     player.bounce()
     player.display()
-    test.draw()
 
     # for i, Line in enumerate(lines):
     #     # if touchedLine[i] < 0:
