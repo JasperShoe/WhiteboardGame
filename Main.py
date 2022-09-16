@@ -4,10 +4,6 @@ from multiprocessing import Process
 import threading
 import math
 
-
-# hello this is a test comment
-
-
 def show_webcam(mirror=False):
     cam = cv.VideoCapture(0)
     # cam.set(cv.CAP_PROP_EXPOSURE, 10)
@@ -120,13 +116,13 @@ def show_webcam(mirror=False):
 
     cv.destroyAllWindows()
 
-def main():
-    show_webcam(True)
-    # print("hi")
+# def main():
+#     show_webcam(True)
+#     print("hi")
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
     #
     # t1 = threading.Thread(target=show_webcam(True), args=())
     # # t2 = threading.Thread(target=game.Game(), args=())

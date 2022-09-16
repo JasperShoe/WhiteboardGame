@@ -181,6 +181,8 @@ while True:
     # ret, frame = camera.read()
     frame = cv.flip(getImg(), 1)
 
+    # print("f")
+
 
 
     # Filters
@@ -217,7 +219,7 @@ while True:
     events = pygame.event.get()
     keys = pygame.key.get_pressed()
     if keys[K_d]:
-        print("hola")
+        # print("hola")
         xStart = []
         yStart = []
         xEnd = []
@@ -321,8 +323,8 @@ while True:
     #             # print(len(yEnd))
     #             # print(len(contours))
     #             break
-    if not k == -1:
-        print(k)
+    # if not k == -1:
+        # print(k)
     if k == 27:
         sys.exit(0)
 
@@ -335,7 +337,7 @@ while True:
 
     lines = []
 
-    print(len(xStart))
+    # print(len(xStart))
 
     #for loop to import line goes here
     # for j in range(len(xStart)):
@@ -354,22 +356,22 @@ while True:
     selected_particle = None
 
     #runs the pygame code
-    print(len(pygame.event.get()))
+    # print(len(pygame.event.get()))
     for event in pygame.event.get():
         #print(event)
 
         if event.type == pygame.QUIT:
             running = False
-            print("k")
+            # print("k")
         elif event.type == pygame.MOUSEBUTTONDOWN:
             (mouseX, mouseY) = pygame.mouse.get_pos()
             selected_particle = player
-            print("on")
+            # print("on")
 
 
         elif event.type == pygame.MOUSEBUTTONUP:
             selected_particle = None
-            print("off")
+            # print("off")
 
 
     if selected_particle:

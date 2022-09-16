@@ -76,16 +76,16 @@ def collideLine(particle, line): #checks if particle is touching a line
 
 
     height = int((2*area)/side2)
-    print(xstart)
-    print(xend)
-    print(ystart)
-    print(yend)
-    print(py)
-    print(px)
-    print("cut")
+    # print(xstart)
+    # print(xend)
+    # print(ystart)
+    # print(yend)
+    # print(py)
+    # print(px)
+    # print("cut")
 
     if px < xend and px > xstart or py < yend and py > ystart or py > yend and py < ystart or px > xend and px < xstart: #checks if particle is actually colliding with line and not a ghost line
-        print("ll")
+        # print("ll")
         if height <= particle.size:
             touching = True
             # print(area)
@@ -235,7 +235,7 @@ while running:
             #print(i)
             if collideLine(player, lines[i]) == True:
                 touchedLine[i] = 10
-                print("l")
+                # print("l")
 
         touchedLine[i] -= 1
         lines[i].draw()
